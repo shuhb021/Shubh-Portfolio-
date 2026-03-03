@@ -1,0 +1,92 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Achievements{% endblock %}
+{% block page_title %}Achievements{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:1fr 1.5fr;gap:1.5rem;align-items:start;">
+
+  <!-- Add Form -->
+  <div class="admin-card">
+    <div class="admin-card-header"><h2>Add Achievement</h2></div>
+    <form method="POST" action="{{ url_for('admin_achievement_new') }}">
+      <div class="admin-form">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Title *</label>
+          <input type="text" name="title" required placeholder="Python Certification" />
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+          <div class="form-group">
+            <label>Icon (emoji)</label>
+            <input type="text" name="icon" value="🏆" placeholder="🏆" maxlength="4" />
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <input type="text" name="category" placeholder="Certificate, Award..." />
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Issuer / Organisation</label>
+          <input type="text" name="issuer" placeholder="Google, HackerRank..." />
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Date</label>
+          <input type="text" name="date" placeholder="Jan 2024" />
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Description</label>
+          <textarea name="description" rows="3" placeholder="Brief description..."></textarea>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Certificate / Link URL</label>
+          <input type="url" name="link" placeholder="https://..." />
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label>Display Order</label>
+          <input type="number" name="order" value="0" min="0" />
+        </div>
+        <button type="submit" class="btn-primary btn-full">+ Add Achievement</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- List -->
+  <div class="admin-card">
+    <div class="admin-card-header"><h2>All Achievements ({{ achievements|length }})</h2></div>
+    {% if achievements %}
+    <table class="admin-table">
+      <thead>
+        <tr><th>Icon</th><th>Title</th><th>Issuer</th><th>Category</th><th>Date</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        {% for a in achievements %}
+        <tr>
+          <td style="font-size:1.5rem;line-height:1;">{{ a.icon }}</td>
+          <td><strong>{{ a.title }}</strong></td>
+          <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent);">{{ a.issuer or '—' }}</td>
+          <td>
+            <span style="font-family:var(--font-mono);font-size:0.65rem;letter-spacing:0.1em;background:var(--accent-dim);color:var(--accent);padding:0.15rem 0.6rem;border-radius:100px;border:1px solid rgba(201,168,76,0.2);">
+              {{ a.category or '—' }}
+            </span>
+          </td>
+          <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">{{ a.date or '—' }}</td>
+          <td>
+            <div class="action-btns">
+              <a href="{{ url_for('admin_achievement_edit', aid=a.id) }}" class="btn-sm primary">Edit</a>
+              <form method="POST" action="{{ url_for('admin_achievement_delete', aid=a.id) }}" class="inline-form" onsubmit="return confirm('Delete this achievement?');">
+                <button type="submit" class="btn-sm danger">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div style="padding:2.5rem;text-align:center;color:var(--text-dim);font-family:var(--font-mono);font-size:0.82rem;">
+      No achievements yet. Add your first one!
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

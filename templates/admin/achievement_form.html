@@ -1,0 +1,52 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Edit Achievement{% endblock %}
+{% block page_title %}Edit Achievement{% endblock %}
+{% block header_actions %}<a href="{{ url_for('admin_achievements') }}" class="btn-sm">← Back</a>{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+  <div class="admin-card-header"><h2>Edit — {{ achievement.title }}</h2></div>
+  <form method="POST" action="{{ url_for('admin_achievement_edit', aid=achievement.id) }}">
+    <div class="admin-form">
+      <div class="admin-form-grid">
+        <div class="form-group admin-form-full">
+          <label>Title *</label>
+          <input type="text" name="title" value="{{ achievement.title }}" required />
+        </div>
+        <div class="form-group">
+          <label>Icon (emoji)</label>
+          <input type="text" name="icon" value="{{ achievement.icon }}" maxlength="4" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" name="category" value="{{ achievement.category or '' }}" placeholder="Certificate, Award..." />
+        </div>
+        <div class="form-group">
+          <label>Issuer</label>
+          <input type="text" name="issuer" value="{{ achievement.issuer or '' }}" />
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="text" name="date" value="{{ achievement.date or '' }}" placeholder="Jan 2024" />
+        </div>
+        <div class="form-group admin-form-full">
+          <label>Description</label>
+          <textarea name="description" rows="3">{{ achievement.description or '' }}</textarea>
+        </div>
+        <div class="form-group">
+          <label>Link URL</label>
+          <input type="url" name="link" value="{{ achievement.link or '' }}" placeholder="https://..." />
+        </div>
+        <div class="form-group">
+          <label>Display Order</label>
+          <input type="number" name="order" value="{{ achievement.order }}" min="0" />
+        </div>
+      </div>
+      <div class="admin-form-actions">
+        <button type="submit" class="btn-primary">Save Changes</button>
+        <a href="{{ url_for('admin_achievements') }}" class="btn-sm" style="margin-left:auto;">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+{% block title %}{{ settings.get('hero_title', 'Shubh Shrivastava') }} — Portfolio{% endblock %}
+
+{% block body %}
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">S<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about" class="nav-link-item active-nav">About</a></li>
+      <li><a href="#experience" class="nav-link-item">Experience</a></li>
+      <li><a href="#projects" class="nav-link-item">Projects</a></li>
+      <li><a href="#achievements" class="nav-link-item">Achievements</a></li>
+      <li><a href="#blog" class="nav-link-item">Blog</a></li>
+      <li><a href="#skills" class="nav-link-item">Skills</a></li>
+      <li><a href="#contact" class="nav-link-item">Contact</a></li>
+    </ul>
+    <a href="{{ settings.get('resume_url', '#') }}" class="btn-nav" target="_blank">Resume &nbsp;→</a>
+    <button class="nav-hamburger" id="navToggle" aria-label="Menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <!-- Background layers -->
+  <div class="hero-grid-bg"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-inner">
+    <!-- LEFT: Text content -->
+    <div class="hero-content">
+      <p class="hero-tag reveal">Hello, World &nbsp;—</p>
+
+      <div class="hero-name-block reveal delay-1">
+        <h1 class="hero-firstname">Shubh</h1>
+        <h1 class="hero-lastname">Shrivastava</h1>
+        <div class="hero-name-underline">
+          <svg viewBox="0 0 320 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 14 C60 4, 160 18, 318 8" stroke="url(#ug)" stroke-width="2.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="ug" x1="0" y1="0" x2="320" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#c9a84c" stop-opacity="0"/>
+                <stop offset="30%" stop-color="#c9a84c"/>
+                <stop offset="100%" stop-color="#e8c97a" stop-opacity="0.3"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <div class="hero-subtitle reveal delay-2">
+        <div class="hero-sub-bar"></div>
+        <div>
+          <p class="hero-sub-primary">Backend Developer &amp; Software Engineer</p>
+          <p class="hero-sub-secondary">Crafting Scalable Systems &amp; Elegant Solutions</p>
+        </div>
+      </div>
+
+      <div class="hero-cta reveal delay-3">
+        <a href="#projects" class="btn-hero-primary">View Work</a>
+        <a href="#contact" class="btn-hero-ghost">Get In Touch &nbsp;<span class="cta-arrow">——→</span></a>
+      </div>
+    </div>
+
+    <!-- RIGHT: Diamond photo frame -->
+    <div class="hero-photo-area reveal delay-2">
+      <!-- Decorative outer ring -->
+      <div class="photo-ring-outer"></div>
+      <!-- Decorative corner lines -->
+      <div class="photo-corner-tl"></div>
+      <div class="photo-corner-br"></div>
+      <!-- Diamond frame -->
+      <div class="photo-diamond-wrapper">
+        <div class="photo-diamond-border">
+          <div class="photo-diamond-clip">
+            <img
+              src="{{ settings.get('hero_photo', '') or 'https://placehold.co/500x500/111111/c9a84c?text=Add+Your+Photo' }}"
+              alt="Shubh Shrivastava"
+              class="photo-img"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- Dot clusters -->
+      <div class="photo-dots photo-dots-tr"></div>
+      <div class="photo-dots photo-dots-br"></div>
+      <!-- Small accent dot -->
+      <div class="photo-dot-sm"></div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll-hint">
+    <span class="scroll-label">Scroll Down</span>
+    <div class="scroll-mouse">
+      <div class="scroll-mouse-wheel"></div>
+    </div>
+    <div class="scroll-arrow-down">↓</div>
+  </div>
+
+  <!-- Bottom right decoration -->
+  <div class="hero-bottom-deco">
+    <div class="hero-bottom-line"></div>
+    <div class="hero-bottom-dots">
+      <span class="bdot active"></span>
+      <span class="bdot"></span>
+      <span class="bdot"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─────────────────────────────────────────────── -->
+<section class="section about" id="about">
+  <div class="container">
+    <div class="section-label reveal">01 — About</div>
+    <div class="about-grid">
+      <div class="about-text reveal delay-1">
+        <h2 class="section-title">Crafting digital<br>experiences that <em>scale.</em></h2>
+        <p>{{ settings.get('about_text', 'I\'m a passionate developer with a love for building things that matter.') }}</p>
+        <div class="about-links">
+          {% if settings.get('github_url') %}<a href="{{ settings['github_url'] }}" target="_blank" class="social-link">GitHub ↗</a>{% endif %}
+          {% if settings.get('linkedin_url') %}<a href="{{ settings['linkedin_url'] }}" target="_blank" class="social-link">LinkedIn ↗</a>{% endif %}
+          {% if settings.get('email') %}<a href="mailto:{{ settings['email'] }}" class="social-link">Email ↗</a>{% endif %}
+        </div>
+      </div>
+      <div class="about-stats reveal delay-2">
+        <div class="stat-card">
+          <span class="stat-num">{{ projects|length }}+</span>
+          <span class="stat-label">Projects Built</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">{{ skill_categories|length }}+</span>
+          <span class="stat-label">Skill Areas</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num">{{ experience|length }}+</span>
+          <span class="stat-label">Roles Held</span>
+        </div>
+        <div class="stat-card accent">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Curiosity</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EXPERIENCE ────────────────────────────────────────── -->
+{% if experience %}
+<section class="section experience" id="experience">
+  <div class="container">
+    <div class="section-label reveal">02 — Experience</div>
+    <h2 class="section-title reveal delay-1">Where I've worked</h2>
+    <div class="timeline">
+      {% for exp in experience %}
+      <div class="timeline-item reveal delay-{{ loop.index }}">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">{{ exp.start_date }} — {{ exp.end_date }}</div>
+        <div class="timeline-card">
+          <div class="timeline-header">
+            <h3>{{ exp.role }}</h3>
+            <span class="timeline-company">@ {{ exp.company }}</span>
+            {% if exp.location %}<span class="timeline-loc">{{ exp.location }}</span>{% endif %}
+          </div>
+          {% if exp.description %}<p>{{ exp.description }}</p>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ─── PROJECTS ──────────────────────────────────────────── -->
+<section class="section projects" id="projects">
+  <div class="container">
+    <div class="section-label reveal">03 — Projects</div>
+    <div class="projects-header">
+      <h2 class="section-title reveal delay-1">Things I've built</h2>
+      <div class="project-filters reveal delay-2">
+        <button class="filter-btn active" data-filter="All">All</button>
+        {% set categories = projects | map(attribute='category') | select | unique | list %}
+        {% for cat in categories %}
+        <button class="filter-btn" data-filter="{{ cat }}">{{ cat }}</button>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="projects-grid" id="projectsGrid">
+      {% for project in projects %}
+      <div class="project-card reveal delay-{{ loop.index % 3 + 1 }}" data-category="{{ project.category }}">
+        <div class="project-card-inner">
+          <div class="project-top">
+            {% if project.featured %}<span class="project-featured">Featured</span>{% endif %}
+            <div class="project-links">
+              {% if project.github_url %}<a href="{{ project.github_url }}" target="_blank" title="GitHub" class="icon-link">⌥</a>{% endif %}
+              {% if project.live_url %}<a href="{{ project.live_url }}" target="_blank" title="Live" class="icon-link">↗</a>{% endif %}
+            </div>
+          </div>
+          <h3 class="project-title">{{ project.title }}</h3>
+          <p class="project-desc">{{ project.description }}</p>
+          <div class="project-tech">
+            {% for tech in project.tech_list() %}
+            <span class="tech-tag">{{ tech }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if not projects %}
+    <p class="empty-state">No projects yet — check back soon.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ─── ACHIEVEMENTS ──────────────────────────────────────────── -->
+{% if achievements %}
+<section class="section achievements" id="achievements">
+  <div class="container">
+    <div class="section-label reveal">04 — Achievements</div>
+    <h2 class="section-title reveal delay-1">Milestones &amp; <em>Recognition</em></h2>
+    <div class="achievements-grid">
+      {% for ach in achievements %}
+      <div class="ach-card reveal delay-{{ loop.index % 3 + 1 }}">
+        <div class="ach-icon">{{ ach.icon }}</div>
+        <div class="ach-body">
+          <div class="ach-meta">
+            <span class="ach-category">{{ ach.category }}</span>
+            {% if ach.date %}<span class="ach-date">{{ ach.date }}</span>{% endif %}
+          </div>
+          <h3 class="ach-title">{{ ach.title }}</h3>
+          {% if ach.issuer %}<p class="ach-issuer">{{ ach.issuer }}</p>{% endif %}
+          {% if ach.description %}<p class="ach-desc">{{ ach.description }}</p>{% endif %}
+          {% if ach.link %}<a href="{{ ach.link }}" target="_blank" class="ach-link">View Certificate ↗</a>{% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ─── BLOG ──────────────────────────────────────────────── -->
+{% if blogs %}
+<section class="section blog" id="blog">
+  <div class="container">
+    <div class="section-label reveal">05 — Blog</div>
+    <div class="blog-header">
+      <h2 class="section-title reveal delay-1">Thoughts &amp; <em>Writing</em></h2>
+    </div>
+    <div class="blog-grid">
+      {% for post in blogs %}
+      <a href="{{ url_for('blog_post', slug=post.slug) }}" class="blog-card reveal delay-{{ loop.index % 3 + 1 }}">
+        {% if post.cover_image %}
+        <div class="blog-cover" style="background-image: url('{{ post.cover_image }}')"></div>
+        {% else %}
+        <div class="blog-cover blog-cover-placeholder">
+          <span>✦</span>
+        </div>
+        {% endif %}
+        <div class="blog-card-body">
+          <div class="blog-meta">
+            <span class="blog-date">{{ post.created_at.strftime('%d %b %Y') }}</span>
+            <span class="blog-read">{{ post.read_time }} min read</span>
+          </div>
+          <h3 class="blog-title">{{ post.title }}</h3>
+          {% if post.summary %}<p class="blog-summary">{{ post.summary }}</p>{% endif %}
+          <div class="blog-tags">
+            {% for tag in post.tag_list()[:3] %}
+            <span class="blog-tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          <span class="blog-read-more">Read Article →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ─── SKILLS ────────────────────────────────────────────── -->
+{% if skill_categories %}
+<section class="section skills" id="skills">
+  <div class="container">
+    <div class="section-label reveal">06 — Skills</div>
+    <h2 class="section-title reveal delay-1">Tech stack</h2>
+    <div class="skills-grid">
+      {% for category, skills in skill_categories.items() %}
+      <div class="skill-group reveal delay-{{ loop.index }}">
+        <h3 class="skill-cat-title">{{ category }}</h3>
+        <div class="skill-list">
+          {% for skill in skills %}
+          <div class="skill-item">
+            <div class="skill-meta">
+              <span class="skill-name">{{ skill.name }}</span>
+              <span class="skill-pct">{{ skill.proficiency }}%</span>
+            </div>
+            <div class="skill-bar">
+              <div class="skill-fill" data-width="{{ skill.proficiency }}"></div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ─── CONTACT ───────────────────────────────────────────── -->
+<section class="section contact" id="contact">
+  <div class="container">
+    <div class="section-label reveal">07 — Contact</div>
+    <div class="contact-grid">
+      <div class="contact-left reveal delay-1">
+        <h2 class="section-title">Let's build<br>something <em>great.</em></h2>
+        <p>Have a project in mind, a question, or just want to say hi? My inbox is always open.</p>
+        {% if settings.get('email') %}
+        <a href="mailto:{{ settings['email'] }}" class="contact-email">{{ settings['email'] }}</a>
+        {% endif %}
+      </div>
+      <div class="contact-right reveal delay-2">
+        <div id="formStatus" class="form-status hidden"></div>
+        <div id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name *</label>
+              <input type="text" id="cName" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" id="cEmail" placeholder="your@email.com" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Subject</label>
+            <input type="text" id="cSubject" placeholder="What's this about?" />
+          </div>
+          <div class="form-group">
+            <label>Message *</label>
+            <textarea id="cMessage" rows="5" placeholder="Tell me more..."></textarea>
+          </div>
+          <button class="btn-primary btn-full" id="submitBtn">Send Message →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-name">Shubh Shrivastava</span>
+      <span class="footer-copy">Built with Flask & ♥</span>
+      <div class="footer-socials">
+        {% if settings.get('github_url') %}<a href="{{ settings['github_url'] }}" target="_blank">GH</a>{% endif %}
+        {% if settings.get('linkedin_url') %}<a href="{{ settings['linkedin_url'] }}" target="_blank">LI</a>{% endif %}
+        {% if settings.get('email') %}<a href="mailto:{{ settings['email'] }}">EM</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Contact Form
+document.getElementById('submitBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('formStatus');
+  const data = {
+    name: document.getElementById('cName').value,
+    email: document.getElementById('cEmail').value,
+    subject: document.getElementById('cSubject').value,
+    message: document.getElementById('cMessage').value,
+  };
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  try {
+    const formData = new FormData();
+    Object.entries(data).forEach(([k, v]) => formData.append(k, v));
+    const res = await fetch('/contact', { method: 'POST', body: formData });
+    const json = await res.json();
+    status.className = 'form-status ' + (json.success ? 'success' : 'error');
+    status.textContent = json.success ? json.message : json.error;
+    if (json.success) {
+      document.getElementById('cName').value = '';
+      document.getElementById('cEmail').value = '';
+      document.getElementById('cSubject').value = '';
+      document.getElementById('cMessage').value = '';
+    }
+  } catch (e) {
+    status.className = 'form-status error';
+    status.textContent = 'Something went wrong. Please try again.';
+  }
+  btn.textContent = 'Send Message →';
+  btn.disabled = false;
+});
+
+// Project filters
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.style.display = (filter === 'All' || card.dataset.category === filter) ? 'block' : 'none';
+    });
+  });
+});
+</script>
+{% endblock %}

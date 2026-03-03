@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} — Blog{% endblock %}
+{% block meta_desc %}{{ post.summary }}{% endblock %}
+
+{% block body %}
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="{{ url_for('index') }}" class="nav-logo">S<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="{{ url_for('index') }}#about" class="nav-link-item">About</a></li>
+      <li><a href="{{ url_for('index') }}#projects" class="nav-link-item">Projects</a></li>
+      <li><a href="{{ url_for('index') }}#blog" class="nav-link-item active-nav">Blog</a></li>
+      <li><a href="{{ url_for('index') }}#contact" class="nav-link-item">Contact</a></li>
+    </ul>
+    <a href="{{ settings.get('resume_url', '#') }}" class="btn-nav" target="_blank">Resume &nbsp;→</a>
+  </div>
+</nav>
+
+<div class="blog-post-page">
+  <a href="{{ url_for('index') }}#blog" class="blog-post-back">← Back to Blog</a>
+
+  {% if post.cover_image %}
+  <img src="{{ post.cover_image }}" alt="{{ post.title }}" class="blog-post-cover" />
+  {% endif %}
+
+  <div class="blog-post-tags">
+    {% for tag in post.tag_list() %}
+    <span class="blog-tag">{{ tag }}</span>
+    {% endfor %}
+  </div>
+
+  <h1 class="blog-post-title">{{ post.title }}</h1>
+
+  <div class="blog-post-meta">
+    <span>{{ post.created_at.strftime('%d %B %Y') }}</span>
+    <span>{{ post.read_time }} min read</span>
+    {% if post.updated_at and post.updated_at != post.created_at %}
+    <span>Updated {{ post.updated_at.strftime('%d %b %Y') }}</span>
+    {% endif %}
+  </div>
+
+  <div class="blog-post-content">{{ post.content }}</div>
+</div>
+
+<footer class="footer" style="margin-top:5rem;">
+  <div class="container">
+    <div class="footer-inner">
+      <span class="footer-name">Shubh Shrivastava</span>
+      <a href="{{ url_for('index') }}#blog" class="footer-copy" style="color:var(--accent);">← More Articles</a>
+      <div class="footer-socials">
+        {% if settings.get('github_url') %}<a href="{{ settings['github_url'] }}" target="_blank">GH</a>{% endif %}
+        {% if settings.get('linkedin_url') %}<a href="{{ settings['linkedin_url'] }}" target="_blank">LI</a>{% endif %}
+      </div>
+    </div>
+  </div>
+</footer>
+{% endblock %}

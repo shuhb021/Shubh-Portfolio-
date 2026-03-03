@@ -1,0 +1,55 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Settings{% endblock %}
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+  <div class="admin-card-header"><h2>Site Settings</h2></div>
+  <form method="POST" action="{{ url_for('admin_settings') }}">
+    <div class="admin-form">
+      <div class="settings-grid">
+        <div class="form-group">
+          <label>Your Name / Hero Title</label>
+          <input type="text" name="hero_title" value="{{ settings.get('hero_title', '') }}" placeholder="Shubh Shrivastava" />
+        </div>
+        <div class="form-group">
+          <label>Contact Email</label>
+          <input type="email" name="email" value="{{ settings.get('email', '') }}" placeholder="you@example.com" />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Hero Subtitle</label>
+          <input type="text" name="hero_subtitle" value="{{ settings.get('hero_subtitle', '') }}" placeholder="Backend Developer & Software Engineer..." />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>About Text</label>
+          <textarea name="about_text" rows="5" placeholder="Tell visitors about yourself...">{{ settings.get('about_text', '') }}</textarea>
+        </div>
+        <div class="form-group">
+          <label>GitHub URL</label>
+          <input type="url" name="github_url" value="{{ settings.get('github_url', '') }}" placeholder="https://github.com/..." />
+        </div>
+        <div class="form-group">
+          <label>LinkedIn URL</label>
+          <input type="url" name="linkedin_url" value="{{ settings.get('linkedin_url', '') }}" placeholder="https://linkedin.com/in/..." />
+        </div>
+        <div class="form-group">
+          <label>Orcid ID / Orcid ID URL</label>
+          <input type="url" name="orcid_url" value="{{ settings.get('orcid_url', '') }}" placeholder="https://orcid.com/..." />
+        </div>
+        <div class="form-group" style="grid-column:1/-1;">
+          <label>Hero Photo URL (your profile photo)</label>
+          <input type="url" name="hero_photo" value="{{ settings.get('hero_photo', '') }}" placeholder="https://... (upload to imgur, cloudinary, etc.)" />
+          <small style="color:var(--text-dim);font-family:var(--font-mono);font-size:0.7rem;display:block;margin-top:0.35rem;">Upload your photo to imgur.com or cloudinary.com and paste the direct image link here.</small>
+        </div>
+        <div class="form-group">
+          <label>Resume URL</label>
+          <input type="url" name="resume_url" value="{{ settings.get('resume_url', '') }}" placeholder="https://... (Google Drive, etc.)" />
+        </div>
+      </div>
+      <div class="admin-form-actions">
+        <button type="submit" class="btn-primary">Save Settings</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

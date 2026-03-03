@@ -1,0 +1,77 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Blog{% endblock %}
+{% block page_title %}Blog Posts{% endblock %}
+{% block header_actions %}
+  <a href="{{ url_for('admin_blog_new') }}" class="btn-primary" style="font-size:0.78rem;padding:0.6rem 1.4rem;">+ New Post</a>
+{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2>All Posts ({{ posts|length }})</h2>
+    <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);">
+      {{ posts|selectattr('published')|list|length }} published ·
+      {{ posts|rejectattr('published')|list|length }} drafts
+    </span>
+  </div>
+  {% if posts %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Tags</th>
+        <th>Read Time</th>
+        <th>Status</th>
+        <th>Featured</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in posts %}
+      <tr>
+        <td>
+          <strong>{{ p.title }}</strong>
+          {% if p.summary %}
+          <div style="font-size:0.78rem;color:var(--text-dim);margin-top:2px;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ p.summary }}</div>
+          {% endif %}
+        </td>
+        <td style="max-width:160px;">
+          <div style="display:flex;flex-wrap:wrap;gap:3px;">
+            {% for tag in p.tag_list()[:3] %}
+            <span style="font-family:var(--font-mono);font-size:0.62rem;background:var(--bg-3);color:var(--text-dim);padding:0.1rem 0.4rem;border-radius:3px;border:1px solid var(--border);">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </td>
+        <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);">{{ p.read_time }} min</td>
+        <td>
+          {% if p.published %}
+          <span style="font-family:var(--font-mono);font-size:0.65rem;background:rgba(80,200,120,0.1);color:#6fcf97;padding:0.2rem 0.6rem;border-radius:100px;border:1px solid rgba(80,200,120,0.25);">Published</span>
+          {% else %}
+          <span style="font-family:var(--font-mono);font-size:0.65rem;background:var(--bg-3);color:var(--text-dim);padding:0.2rem 0.6rem;border-radius:100px;border:1px solid var(--border);">Draft</span>
+          {% endif %}
+        </td>
+        <td style="text-align:center;">{% if p.featured %}⭐{% else %}—{% endif %}</td>
+        <td style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);">{{ p.created_at.strftime('%d %b %Y') }}</td>
+        <td>
+          <div class="action-btns">
+            {% if p.published %}
+            <a href="{{ url_for('blog_post', slug=p.slug) }}" target="_blank" class="btn-sm">View ↗</a>
+            {% endif %}
+            <a href="{{ url_for('admin_blog_edit', pid=p.id) }}" class="btn-sm primary">Edit</a>
+            <form method="POST" action="{{ url_for('admin_blog_delete', pid=p.id) }}" class="inline-form" onsubmit="return confirm('Delete this post?');">
+              <button type="submit" class="btn-sm danger">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div style="padding:3rem;text-align:center;color:var(--text-dim);font-family:var(--font-mono);font-size:0.82rem;">
+    No blog posts yet. <a href="{{ url_for('admin_blog_new') }}" style="color:var(--accent);">Write your first post →</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

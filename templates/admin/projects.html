@@ -1,0 +1,51 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Projects{% endblock %}
+{% block page_title %}Projects{% endblock %}
+{% block header_actions %}
+  <a href="{{ url_for('admin_project_new') }}" class="btn-primary" style="font-size:0.78rem;padding:0.6rem 1.4rem;">+ New Project</a>
+{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2>All Projects ({{ projects|length }})</h2>
+  </div>
+  {% if projects %}
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Tech Stack</th>
+        <th>Featured</th>
+        <th>Order</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in projects %}
+      <tr>
+        <td><strong>{{ p.title }}</strong></td>
+        <td><span style="font-family:var(--font-mono);font-size:0.75rem;">{{ p.category or '—' }}</span></td>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:0.8rem;color:var(--text-dim);">{{ p.tech_stack or '—' }}</td>
+        <td>{% if p.featured %}✓{% else %}—{% endif %}</td>
+        <td style="font-family:var(--font-mono);font-size:0.8rem;">{{ p.order }}</td>
+        <td>
+          <div class="action-btns">
+            <a href="{{ url_for('admin_project_edit', pid=p.id) }}" class="btn-sm primary">Edit</a>
+            <form method="POST" action="{{ url_for('admin_project_delete', pid=p.id) }}" class="inline-form" onsubmit="return confirm('Delete this project?');">
+              <button type="submit" class="btn-sm danger">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div style="padding:3rem;text-align:center;color:var(--text-dim);font-family:var(--font-mono);font-size:0.82rem;">
+    No projects yet. <a href="{{ url_for('admin_project_new') }}" style="color:var(--accent);">Add your first project →</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

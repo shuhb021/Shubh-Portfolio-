@@ -1,0 +1,60 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}{% if project %}Edit Project{% else %}New Project{% endif %}{% endblock %}
+{% block page_title %}{% if project %}Edit Project{% else %}New Project{% endif %}{% endblock %}
+{% block header_actions %}
+  <a href="{{ url_for('admin_projects') }}" class="btn-sm">← Back</a>
+{% endblock %}
+
+{% block content %}
+<div class="admin-card">
+  <div class="admin-card-header">
+    <h2>{% if project %}Edit — {{ project.title }}{% else %}Create New Project{% endif %}</h2>
+  </div>
+  <form method="POST" action="{% if project %}{{ url_for('admin_project_edit', pid=project.id) }}{% else %}{{ url_for('admin_project_new') }}{% endif %}">
+    <div class="admin-form">
+      <div class="admin-form-grid">
+        <div class="form-group">
+          <label>Title *</label>
+          <input type="text" name="title" value="{{ project.title if project else '' }}" required placeholder="Project name" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <input type="text" name="category" value="{{ project.category if project else '' }}" placeholder="Web App, AI/ML, CLI..." />
+        </div>
+        <div class="form-group admin-form-full">
+          <label>Description *</label>
+          <textarea name="description" rows="4" required placeholder="Describe the project...">{{ project.description if project else '' }}</textarea>
+        </div>
+        <div class="form-group admin-form-full">
+          <label>Tech Stack (comma-separated)</label>
+          <input type="text" name="tech_stack" value="{{ project.tech_stack if project else '' }}" placeholder="Python, Flask, PostgreSQL, React..." />
+        </div>
+        <div class="form-group">
+          <label>GitHub URL</label>
+          <input type="url" name="github_url" value="{{ project.github_url if project else '' }}" placeholder="https://github.com/..." />
+        </div>
+        <div class="form-group">
+          <label>Live URL</label>
+          <input type="url" name="live_url" value="{{ project.live_url if project else '' }}" placeholder="https://..." />
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="url" name="image_url" value="{{ project.image_url if project else '' }}" placeholder="https://..." />
+        </div>
+        <div class="form-group">
+          <label>Display Order</label>
+          <input type="number" name="order" value="{{ project.order if project else 0 }}" min="0" />
+        </div>
+      </div>
+      <div class="admin-form-actions">
+        <button type="submit" class="btn-primary">{% if project %}Save Changes{% else %}Create Project{% endif %}</button>
+        <label class="checkbox-label">
+          <input type="checkbox" name="featured" {% if project and project.featured %}checked{% endif %} />
+          Mark as Featured
+        </label>
+        <a href="{{ url_for('admin_projects') }}" class="btn-sm" style="margin-left:auto;">Cancel</a>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

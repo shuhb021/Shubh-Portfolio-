@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Admin{% endblock %} — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="admin-logo">
+      <div class="admin-logo-mark">S</div>
+      <div class="admin-logo-text">
+        <strong>Admin Panel</strong>
+        Portfolio CMS
+      </div>
+    </div>
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link {% if request.endpoint == 'admin_dashboard' %}active{% endif %}">
+        ◈ Dashboard
+      </a>
+      <a href="{{ url_for('admin_projects') }}" class="admin-nav-link {% if 'project' in request.endpoint %}active{% endif %}">
+        ◻ Projects
+      </a>
+      <a href="{{ url_for('admin_skills') }}" class="admin-nav-link {% if 'skill' in request.endpoint %}active{% endif %}">
+        ◎ Skills
+      </a>
+      <a href="{{ url_for('admin_experience') }}" class="admin-nav-link {% if 'experience' in request.endpoint %}active{% endif %}">
+        ◌ Experience
+      </a>
+      {% set unread = unread_count | default(0) %}
+      <a href="{{ url_for('admin_messages') }}" class="admin-nav-link {% if 'message' in request.endpoint %}active{% endif %}">
+        ◇ Messages
+        {% if unread > 0 %}<span class="badge">{{ unread }}</span>{% endif %}
+      </a>
+      <a href="{{ url_for('admin_achievements') }}" class="admin-nav-link {% if 'achievement' in request.endpoint %}active{% endif %}">
+        🏆 Achievements
+      </a>
+      <a href="{{ url_for('admin_blog') }}" class="admin-nav-link {% if 'blog' in request.endpoint %}active{% endif %}">
+        ✦ Blog
+      </a>
+      <a href="{{ url_for('admin_settings') }}" class="admin-nav-link {% if 'settings' in request.endpoint %}active{% endif %}">
+        ◈ Settings
+      </a>
+    </nav>
+    <div class="admin-footer-nav">
+      <a href="{{ url_for('index') }}" target="_blank">↗ View Site</a>
+      <a href="{{ url_for('admin_logout') }}">⎋ Logout</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="admin-main">
+    <header class="admin-header">
+      <h1 class="admin-page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+      {% block header_actions %}{% endblock %}
+    </header>
+    <div class="admin-content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+              <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+</div>
+</body>
+</html>

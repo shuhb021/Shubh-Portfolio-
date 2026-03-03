@@ -1,0 +1,72 @@
+{% extends "admin/base_admin.html" %}
+{% block title %}Skills{% endblock %}
+{% block page_title %}Skills{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:1fr 1.4fr;gap:1.5rem;align-items:start;">
+
+  <!-- Add Skill Form -->
+  <div class="admin-card">
+    <div class="admin-card-header"><h2>Add Skill</h2></div>
+    <form method="POST" action="{{ url_for('admin_skill_new') }}">
+      <div class="admin-form">
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Skill Name *</label>
+          <input type="text" name="name" required placeholder="Python, React..." />
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Category</label>
+          <input type="text" name="category" placeholder="Languages, Frameworks, Tools..." />
+        </div>
+        <div class="form-group" style="margin-bottom:1rem;">
+          <label>Proficiency (0–100)</label>
+          <input type="number" name="proficiency" value="80" min="0" max="100" />
+        </div>
+        <div class="form-group" style="margin-bottom:1.5rem;">
+          <label>Display Order</label>
+          <input type="number" name="order" value="0" min="0" />
+        </div>
+        <button type="submit" class="btn-primary btn-full">+ Add Skill</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Skills List -->
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <h2>All Skills ({{ skills|length }})</h2>
+    </div>
+    {% if skills %}
+    <table class="admin-table">
+      <thead>
+        <tr><th>Name</th><th>Category</th><th>Proficiency</th><th></th></tr>
+      </thead>
+      <tbody>
+        {% for s in skills %}
+        <tr>
+          <td><strong>{{ s.name }}</strong></td>
+          <td style="font-family:var(--font-mono);font-size:0.75rem;color:var(--accent);">{{ s.category or '—' }}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:0.75rem;">
+              <div style="flex:1;height:3px;background:var(--bg-3);border-radius:2px;overflow:hidden;">
+                <div style="height:100%;width:{{ s.proficiency }}%;background:linear-gradient(90deg,var(--accent),var(--accent-light));border-radius:2px;"></div>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-dim);">{{ s.proficiency }}%</span>
+            </div>
+          </td>
+          <td>
+            <form method="POST" action="{{ url_for('admin_skill_delete', sid=s.id) }}" class="inline-form" onsubmit="return confirm('Remove this skill?');">
+              <button type="submit" class="btn-sm danger">×</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div style="padding:2rem;text-align:center;color:var(--text-dim);font-family:var(--font-mono);font-size:0.82rem;">No skills yet.</div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}
