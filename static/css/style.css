@@ -201,9 +201,17 @@ em { font-style: italic; color: var(--accent-light); }
 }
 .photo-diamond-clip { width: 100%; height: 100%; overflow: hidden; border-radius: 2px; background: #111; }
 .photo-img {
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
-  transform: rotate(-45deg) scale(1.42); transform-origin: center center; display: block;
+  width: 145%;
+  height: 145%;
+  object-fit: cover;
+  object-position: center top;
+  transform: rotate(-45deg);
+  transform-origin: center center;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
 }
 .photo-dots { position: absolute; }
 .photo-dots-tr {
