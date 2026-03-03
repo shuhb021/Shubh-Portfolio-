@@ -36,14 +36,7 @@ python init_db.py
 
 # 6. Run the development server
 python app.py
-```
-
-Open: http://localhost:5000  
-Admin: http://localhost:5000/admin  
-Default login: `admin` / `admin123`
-
 ---
-
 ## Deployment
 
 ### Render (Free tier)
